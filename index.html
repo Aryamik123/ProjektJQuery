@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart ToDo List - Aplikacja Zarządzania Zadaniami</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/ui-lightness/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <!-- Header z przełącznikiem trybu -->
+        <header class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-body text-center">
+                        <h1 class="display-4 mb-2">
+                            <i class="fas fa-tasks"></i> Smart ToDo List
+                        </h1>
+                        <button id="themeToggle" class="btn btn-outline-secondary">
+                            <i class="fas fa-moon"></i> Tryb ciemny
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="row">
+            <!-- Formularz dodawania zadań -->
+            <div class="col-lg-4 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h3><i class="fas fa-plus-circle"></i> Nowe zadanie</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="taskForm">
+                            <div class="mb-3">
+                                <label for="taskTitle" class="form-label">Tytuł zadania <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="taskTitle" name="taskTitle" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="taskDescription" class="form-label">Opis</label>
+                                <textarea class="form-control" id="taskDescription" name="taskDescription" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="taskDate" class="form-label">Termin</label>
+                                <input type="text" class="form-control" id="taskDate" name="taskDate">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Priorytet</label>
+                                <select class="form-select" id="taskPriority" name="taskPriority">
+                                    <option value="low">Niski</option>
+                                    <option value="medium">Średni</option>
+                                    <option value="high">Wysoki</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-success w-100">
+                                <i class="fas fa-plus"></i> Dodaj zadanie
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statystyki -->
+            <div class="col-lg-8 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-success text-white">
+                        <h4><i class="fas fa-chart-bar"></i> Statystyki</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row text-center">
+                            <div class="col-md-3">
+                                <div class="stat-box">
+                                    <h2 id="totalTasks">0</h2>
+                                    <p>Wszystkich</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-box">
+                                    <h2 id="pendingTasks">0</h2>
+                                    <p>Do zrobienia</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-box">
+                                    <h2 id="completedTasks">0</h2>
+                                    <p>Ukończonych</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-box">
+                                    <h2 id="highPriority">0</h2>
+                                    <p>Wysoki priorytet</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabela zadań -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                        <h3><i class="fas fa-list"></i> Lista zadań</h3>
+                        <div>
+                            <button id="clearAll" class="btn btn-danger btn-sm me-2">
+                                <i class="fas fa-trash"></i> Wyczyść wszystkie
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <table id="tasksTable" class="table table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th><i class="fas fa-check-circle"></i></th>
+                                    <th>Tytuł</th>
+                                    <th>Opis</th>
+                                    <th>Termin</th>
+                                    <th>Priorytet</th>
+                                    <th><i class="fas fa-cog"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+    
+    <script src="app.js"></script>
+</body>
+</html>
