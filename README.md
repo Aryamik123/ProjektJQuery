@@ -39,4 +39,4 @@ Tryb ciemny/jasny
 Jak uruchomić
 Pobierz lub sklonuj projekt
 Otwórz plik index.html w przeglądarce
-Gotowe!
+
