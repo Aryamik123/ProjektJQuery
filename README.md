@@ -1,4 +1,4 @@
-Smart ToDo List - Aplikacja do zarządzania zadaniami
+Smart ToDo List - Aplikacja do zarządzania zadaniami 
 Prosta i responsywna aplikacja webowa do zarządzania zadaniami. Zbudowana zgodnie z wymaganiami projektu indywidualnego z użyciem jQuery.
 
 Spełnione wymagania
